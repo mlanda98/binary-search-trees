@@ -89,6 +89,57 @@ class Tree {
     };
     return searchNode(this.root, data);
   }
+
+  levelOrder(callback){
+    if (this.root === null) return;
+
+    const queue = [];
+    queue.push(this.root);
+
+    while (queue.length > 0){
+      const node = queue.shift();
+      callback(node.data);
+
+      if (node.left !== null){
+        queue.push(node.left);
+      }
+      if (node.right !== null){
+        queue.push(node.right);
+      }
+    }
+  }
+  inOrder(callback){
+  const inOrderTraverse = (node) => {
+    if (node !== null){
+      inOrderTraverse(node.left);
+      callback(node.data);
+      inOrderTraverse(node.right);
+    }
+  };
+  inOrderTraverse(this.root);
+ }
+
+ preOrder(callback){
+  const preOrderTraverse = (node) => {
+    if (node !== null) {
+        callback(node.data);
+        preOrderTraverse(node.left);
+        preOrderTraverse(node.right);
+      }
+    };
+    preOrderTraverse(this.root);
+  }
+ 
+  postOrder(callback){
+    const postOrderTraverse = (node) => {
+      if (node !== null){
+        postOrderTraverse(node.left);
+        postOrderTraverse(node.right);
+        callback(node.data);
+      }
+    };
+    postOrderTraverse(this.root);
+  }
 }
  const prettyPrint = (node, prefix = "", isLeft = true) => {
    if (node === null) {
@@ -108,5 +159,9 @@ class Tree {
  tree.insert(23);
  tree.deleteItem(3);
  console.log(tree.search(10));
+ tree.inOrder((data) => console.log(data)); 
+ tree.preOrder((data) => console.log(data));
+ tree.postOrder((data) => console.log(data));
+ prettyPrint(tree.root)
 
- prettyPrint(tree.root);
+ 
