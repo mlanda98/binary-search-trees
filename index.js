@@ -141,13 +141,28 @@ class Tree {
     postOrderTraverse(this.root);
   }
 
-  depth(node = this.root){
-    if (node === null){
-      return 0;
+  depth(node, current = this.root, currentDepth = 0){
+    if (current === null){
+      return -1;
     }
-    const leftDepth = this.depth(node.left);
-    const rightDepth = this.depth(node.right);
-    return Math.max(leftDepth, rightDepth) + 1;
+    if (node === current){
+      return currentDepth;
+    }
+    if (node.data < current.data){
+      return this.depth(node, current.left, currentDepth + 1);
+    } else if (node.data > current.data){
+      return this.depth(node, current.right, currentDepth + 1);
+    }
+    return -1;
+  }
+
+  height(node){
+    if (node === null){
+      return -1;
+    }
+    const leftHeight = this.height(node.left);
+    const rightHeight = this.height(node.right);
+    return Math.max((leftHeight, rightHeight) + 1);
   }
 }
  const prettyPrint = (node, prefix = "", isLeft = true) => {
@@ -172,6 +187,9 @@ class Tree {
  tree.preOrder((data) => console.log(data));
  tree.postOrder((data) => console.log(data));
  prettyPrint(tree.root)
- console.log(tree.depth());
+ console.log(tree.height(tree.root));
+
+ const nodeDepth = tree.root.left;
+ console.log(tree.depth(nodeDepth));
 
  
