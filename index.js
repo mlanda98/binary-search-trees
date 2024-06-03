@@ -164,6 +164,27 @@ class Tree {
     const rightHeight = this.height(node.right);
     return Math.max((leftHeight, rightHeight) + 1);
   }
+
+  isBalanced(){
+    const checkBalance = (node) => {
+      if (node === null){
+        return 0;
+      }
+      const leftHeight = checkBalance(node.left);
+      const rightHeight = checkBalance(node.right);
+
+      if (leftHeight === -1 || rightHeight === -1 || Math.abs(leftHeight - rightHeight) > 1){
+        return -1;
+      }
+      return Math.max(leftHeight, rightHeight) + 1;
+    };
+    return checkBalance(this.root) !== -1;
+  }
+  rebalance(){
+    const elements = [];
+    this.inOrder((data) => elements.push(data));
+    this.root = this.buildTree(elements);
+  }
 }
  const prettyPrint = (node, prefix = "", isLeft = true) => {
    if (node === null) {
@@ -181,15 +202,16 @@ class Tree {
  const arr = [10, 5, 15, 3, 7, 12, 18, 10];
  const tree = new Tree(arr);
  tree.insert(23);
- tree.deleteItem(3);
- console.log(tree.search(10));
  tree.inOrder((data) => console.log(data)); 
  tree.preOrder((data) => console.log(data));
  tree.postOrder((data) => console.log(data));
  prettyPrint(tree.root)
- console.log(tree.height(tree.root));
 
- const nodeDepth = tree.root.left;
- console.log(tree.depth(nodeDepth));
+ console.log("is the tree balanced", tree.isBalanced());
+ if (!tree.isBalanced()){
+  tree.rebalance();
+  console.log("tree rebalanced")
+  prettyPrint(tree.root);
+ }
 
  
