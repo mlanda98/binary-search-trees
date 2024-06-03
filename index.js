@@ -28,6 +28,52 @@ class Tree {
     };
     return build(0, sortedArray.length - 1);
   }
+  insert(data){
+    const insertNode = (node, data) => {
+      if (node === null){
+        return new Node(data);
+      }
+      if (data < node.data){
+        node.left = insertNode(node.left, data);
+      } else if (data > node.data){
+        node.right = insertNode(node.right, data);
+      }
+      return node;
+    };
+    this.root = insertNode(this.root, data);
+  }
+
+  deleteItem(data){
+    const deleteNode = (node, data) => {
+      if (node === null){
+        return null;
+      }
+
+      if (data < node.data){
+        node.left = deleteNode(node.left, data);
+      } else if (data > node.data){
+        node.right = deleteNode(node.right, data);
+      } else {
+        if (node.left === null){
+          return node.right;
+        } else if (node.right === null){
+          return node.left;
+        }
+
+        node.data = this.minValue(node.right);
+        node.right = deleteNode(node.right, node.data);
+      }
+      return node;
+    };
+    this.root = deleteNode(this.root, data);
+  }
+  minValue(node){
+    let current = node;
+    while (current.left !== null){
+      current = current.left;
+    }
+    return current.data;
+  }
 }
  const prettyPrint = (node, prefix = "", isLeft = true) => {
    if (node === null) {
@@ -41,3 +87,10 @@ class Tree {
      prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
    }
  };
+
+ const arr = [10, 5, 15, 3, 7, 12, 18, 10];
+ const tree = new Tree(arr);
+ tree.insert(23);
+ tree.deleteItem(3);
+
+ prettyPrint(tree.root);
