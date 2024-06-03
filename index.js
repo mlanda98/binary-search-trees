@@ -74,6 +74,21 @@ class Tree {
     }
     return current.data;
   }
+  search(data){
+    const searchNode = (node, data) => {
+      if (node === null){
+        return false;
+      }
+      if (data === node.data){
+        return true;
+      } else if (data < node.data){
+        return searchNode(node.left, data);
+      } else {
+        return searchNode(node.right, data);
+      }
+    };
+    return searchNode(this.root, data);
+  }
 }
  const prettyPrint = (node, prefix = "", isLeft = true) => {
    if (node === null) {
@@ -92,5 +107,6 @@ class Tree {
  const tree = new Tree(arr);
  tree.insert(23);
  tree.deleteItem(3);
+ console.log(tree.search(10));
 
  prettyPrint(tree.root);
