@@ -140,6 +140,15 @@ class Tree {
     };
     postOrderTraverse(this.root);
   }
+
+  depth(node = this.root){
+    if (node === null){
+      return 0;
+    }
+    const leftDepth = this.depth(node.left);
+    const rightDepth = this.depth(node.right);
+    return Math.max(leftDepth, rightDepth) + 1;
+  }
 }
  const prettyPrint = (node, prefix = "", isLeft = true) => {
    if (node === null) {
@@ -163,5 +172,6 @@ class Tree {
  tree.preOrder((data) => console.log(data));
  tree.postOrder((data) => console.log(data));
  prettyPrint(tree.root)
+ console.log(tree.depth());
 
  
